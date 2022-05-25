@@ -313,6 +313,7 @@ class MoreImageView(ListAPIView):
 
 
 class StatusUpdateView(ListAPIView):
+    
     def post(self,request):
         try:
             id = self.request.data['id']
@@ -347,3 +348,19 @@ class StatusUpdateView(ListAPIView):
                 "Status" : status.HTTP_200_OK,
                 "Message" : "Something Went Wrong"
             })
+
+
+
+class ProductUser(ListAPIView):
+    serializer_class = ProductSerializeruserView
+    def get_queryset(self):
+        category = self.request.GET.get("category","")
+        id = self.request.GET.get("id","")
+        allproduct = ProductModel.objects.all()
+        EnableProduct = allproduct.filter(status="Enable")
+        if category:
+            EnableProduct = allproduct.filter(status="Enable",category = category)
+        if id:
+            self.serializer_class = ProductSerializer
+            EnableProduct = allproduct.filter(id=id)
+        return EnableProduct

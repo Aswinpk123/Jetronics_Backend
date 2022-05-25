@@ -8,3 +8,9 @@ class StatusModel(models.Model):
     colour = models.CharField(max_length=255,null=False,blank=False)
     created_date = models.DateField(auto_now_add=True)
     updated_date = models.DateField(auto_now=True)
+
+
+class CitiesModel(models.Model):
+    name = models.CharField(max_length=255,null=False,blank=False)
+    created_date = models.DateField(auto_now_add=True)
+    updated_date = models.DateField(auto_now=True)

@@ -8,4 +8,10 @@ urlpatterns = [
     path('product/',ProductView.as_view()),
     path('moreimages/',MoreImageView.as_view()),
     path('statuschange/',StatusUpdateView.as_view()),
+
+
+
+    path('productuser/',ProductUser.as_view()),
+
+
 ]

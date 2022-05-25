@@ -6,3 +6,9 @@ class StatusSerializer(serializers.ModelSerializer):
     class Meta:
         model = StatusModel
         fields = '__all__'
+
+
+class CitiesSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CitiesModel
+        fields = '__all__'

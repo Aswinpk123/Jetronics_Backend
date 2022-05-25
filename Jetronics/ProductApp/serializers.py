@@ -29,4 +29,7 @@ class ProductSerializer(serializers.ModelSerializer):
         return v_qs.data
 
 
-
+class ProductSerializeruserView(serializers.ModelSerializer):
+    class Meta:
+        model = ProductModel
+        fields = '__all__'

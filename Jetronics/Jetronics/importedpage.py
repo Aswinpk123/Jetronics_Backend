@@ -17,3 +17,5 @@ from ProductApp.models import *
 from ProductApp.serializers import *
 from StatusApp.models import *
 from StatusApp.serializers import *
+from OrderApp.models import *
+from OrderApp.serializers import *

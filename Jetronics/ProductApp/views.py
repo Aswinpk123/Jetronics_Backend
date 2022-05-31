@@ -183,9 +183,10 @@ class ProductView(ListAPIView):
                 "Message" : "update"
             })
         else:
-            mandatory = ['category','brand','price','quantity','title','description','status','product_image','code','rank']
+            mandatory = ['category','brand','price','title','description','status','product_image','code','rank']
             data = Validate(self.request.data,mandatory)
             if data == True:
+               
                 try:
                     category = self.request.POST.get("category","")                   
                     categorys = ProductCategory.objects.filter(id=category)
@@ -197,20 +198,19 @@ class ProductView(ListAPIView):
                             "Message" : "The Record Was Not Found"
                         })
 
+                   
                     serializer = ProductSerializer(data=self.request.data,partial=True)
                     serializer.is_valid(raise_exception=True)
                     serializer.save()
                     productid = serializer.data['id']
-
+ 
                    
                     for imagefile in request.FILES.getlist('images'):
                         serializer = MoreProductImageSerializer(data={'productimage':imagefile,'image_id':productid})
                         serializer.is_valid(raise_exception=True)
                         serializer.save()
                     
-                    else:
-                        pass
-                
+               
                     return Response({
                         "Status" : status.HTTP_200_OK,
                         "Message" : "Product Succesfully Created"
@@ -218,13 +218,22 @@ class ProductView(ListAPIView):
                 except Exception as e:
                     return Response({
                         "Status" : status.HTTP_400_BAD_REQUEST,
-                        "Message" : "Something Went Wrong"
+                        "Message" : str(e)
                     })
             else:
                 return Response({
                     "Status" : status.HTTP_400_BAD_REQUEST,
                     "Message" : data
                 })
+        # else:
+        #     # print(self.request.data['colour'])
+         
+        #     # Testtable.objects.create(allcolour=self.request.data['colour'])
+        #     # alldata = Testtable.objects.get(id=1)
+        #     # print(alldata.allcolour)
+        #     # for x in alldata.allcolour.split(','):
+        #     #     print(x)
+        #     return Response("ok")
 
    
         
@@ -352,6 +361,7 @@ class StatusUpdateView(ListAPIView):
 
 
 class ProductUser(ListAPIView):
+
     serializer_class = ProductSerializeruserView
     def get_queryset(self):
         category = self.request.GET.get("category","")
@@ -364,3 +374,23 @@ class ProductUser(ListAPIView):
             self.serializer_class = ProductSerializer
             EnableProduct = allproduct.filter(id=id)
         return EnableProduct
+
+
+
+class Alldetails(ListAPIView):
+    def get(self,request):
+        today = datetime.datetime.today().date()
+        print(today)
+        todaysdata = OrderModel.objects.filter(created_date=today).count()
+        todaysnewdata = OrderModel.objects.filter(created_date=today,status__statuscode=5).count()
+        totalorders = OrderModel.objects.all().count()
+        missingorder_today = MissingOrder.objects.filter(created_date = today).count()
+        print(todaysdata)
+        print(todaysnewdata)
+        return Response({
+            "status" : status.HTTP_200_OK,
+            "todaysdata" : todaysdata,
+            "todaysnewdata" : todaysnewdata,
+            "totalorders" : totalorders,
+            'missingordertoday' : missingorder_today
+        })

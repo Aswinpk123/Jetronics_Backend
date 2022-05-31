@@ -12,10 +12,15 @@ class UserView(ListAPIView):
         user = UserDetailsModel.objects.all().order_by('-id')
         return user
        
-    def post(self,request):        
-        user_obj = ""        
-        id = self.request.POST.get("id", "")   
+    def post(self,request):  
+        print(self.request.data)      
+        user_obj = ""  
+        try:      
+            id = self.request.data["id"]
+        except:
+            id = ""   
         if id:
+           
             if id.isdigit():
                 
                 try:
@@ -30,8 +35,10 @@ class UserView(ListAPIView):
 
                     serializer = UserSerializer(user,data=request.data,partial=True)
                     serializer.is_valid(raise_exception=True)
-
-                    password = self.request.POST.get('password','')
+                    try:
+                        password = self.request.data['password']
+                    except:
+                        password = ""
                    
                     if password  :
                         msg="User details and password updated Succesfully"
@@ -159,6 +166,7 @@ class  LoginedUser(ListAPIView):
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
     def get_queryset(self):
+        print(self.request.data)
         id = self.request.user.id
         user = UserDetailsModel.objects.filter(id=id)
         return user
@@ -176,3 +184,10 @@ class LogoutView(ListAPIView):
             "Status":True,
             "Data":"Succesfully Logout"
         })
+
+
+
+
+
+
+

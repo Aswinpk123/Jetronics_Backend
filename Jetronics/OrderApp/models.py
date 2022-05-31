@@ -1,13 +1,18 @@
 from django.db import models
 from ProductApp.models import *
+from StatusApp.models import *
 
 # Create your models here.
 
 class MissingOrder(models.Model):
     product = models.ForeignKey(ProductModel,on_delete=models.CASCADE)
+    userrandomid = models.CharField(max_length=255,default='')
     clientname = models.CharField(max_length=255)
     phone = models.CharField(max_length=20)
     city = models.CharField(max_length=255)
+    quantity = models.CharField(max_length=255,null=True,blank=True,default=1)
+    size = models.CharField(max_length=255,null=True,blank=True)
+    colour = models.CharField(max_length=255,null=True,blank=True)
     created_date = models.DateField(auto_now_add=True)
     updated_date = models.DateField(auto_now=True)
 
@@ -29,7 +34,8 @@ class OrderModel (models.Model):
     product_total = models.CharField(max_length=255)
     product_size = models.CharField(max_length=255,null=True,blank=True)
     product_colour = models.CharField(max_length=255,null=True,blank=True)
-    status = models.CharField(max_length=255,default='')
+    details = models.CharField(max_length=255,default='',null=True,blank=True)
+    status = models.ForeignKey(StatusModel,on_delete=models.CASCADE,default='')
     product_image_url = models.CharField(max_length=255,default='')
     created_date = models.DateField(auto_now_add=True)
     updated_date = models.DateField(auto_now=True)

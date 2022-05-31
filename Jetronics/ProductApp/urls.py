@@ -13,5 +13,7 @@ urlpatterns = [
 
     path('productuser/',ProductUser.as_view()),
 
+    path('details/',Alldetails.as_view()),
+
 
 ]

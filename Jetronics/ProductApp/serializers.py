@@ -14,13 +14,16 @@ class MoreProductImageSerializer(serializers.ModelSerializer):
         model = MoreProductImage
         fields = '__all__'
 
+
+
 class ProductSerializer(serializers.ModelSerializer):
     productimage = serializers.SerializerMethodField()
+   
     class Meta:
         model = ProductModel
         fields = '__all__'
 
-    
+
     def get_productimage(self,obj):
     
         v_obj = MoreProductImage.objects.filter(image_id=obj.id)
@@ -33,3 +36,5 @@ class ProductSerializeruserView(serializers.ModelSerializer):
     class Meta:
         model = ProductModel
         fields = '__all__'
+
+

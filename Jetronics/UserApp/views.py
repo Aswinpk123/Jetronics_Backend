@@ -158,7 +158,7 @@ class LoginView(ObtainAuthToken):
         except Exception as e:
             return Response({
                 "Status":status.HTTP_400_BAD_REQUEST,
-                "Message":"Incorrect Changed Error",
+                "Message":"Incorrect Username Or Password",
             })
 
 class  LoginedUser(ListAPIView):
